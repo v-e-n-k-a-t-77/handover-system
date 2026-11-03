@@ -19,7 +19,7 @@ const topicOf = (text) => {
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
 const topicFor = (text) => topicOf(text) || slug(text);
 
-const CHAT_RE = /^\[(\d{2}\/\d{2}\/\d{4}),\s*\d{2}:\d{2}\]\s*([^:]+):\s*(.+)$/;
+const CHAT_RE = /^\[?(\d{1,2}\/\d{1,2}\/\d{2,4}),?\s*\d{1,2}:\d{2}(?::\d{2})?(?:\s?[APap][Mm])?\]?\s*(?:-\s*)?([^:]+):\s*(.+)$/;
 
 export function extractRules(sources) {
   const cands = [];

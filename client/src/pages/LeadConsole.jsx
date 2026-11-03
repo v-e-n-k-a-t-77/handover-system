@@ -5,6 +5,7 @@ import Layout from '../components/Layout'
 import Ring from '../components/Ring'
 import ItemCard from '../components/ItemCard'
 import ReviewBar from '../components/ReviewBar'
+import SourcesPanel from '../components/SourcesPanel'
 
 function Bar({ label, weight, value }) {
   return (
@@ -118,7 +119,8 @@ export default function LeadConsole() {
           </div>
         </aside>
 
-        <section className="lg:col-span-2">
+                <section className="lg:col-span-2">
+          <SourcesPanel />
           <div className="mb-3 flex flex-wrap gap-2">
             {FILTERS.map(([key, label]) => (
               <button

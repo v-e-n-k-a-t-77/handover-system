@@ -10,7 +10,7 @@ app.use(cors({
   origin: (process.env.CLIENT_URL || '').split(',').map((s) => s.trim()),
   credentials: true,
 }));
-app.use(express.json());
+app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 
 app.get('/health', (req, res) => {

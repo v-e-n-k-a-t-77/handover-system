@@ -165,4 +165,45 @@ router.post('/handover/acknowledge', requireRole('joiner'), async (req, res) => 
   res.json({ acknowledged: true, version });
 });
 
+const sourceSchema = z.object({
+  name: z.string().min(1).max(100),
+  type: z.enum(['chat', 'notes', 'tasks']),
+  access_label: z.enum(['team', 'leads_only']),
+  content: z.string().min(1).max(200000),
+});
+
+router.get('/sources', requireRole('lead'), async (req, res) => {
+  const { rows } = await pool.query(
+    'SELECT id, name, type, access_label, length(content) AS chars FROM sources ORDER BY id'
+  );
+  res.json({ sources: rows });
+});
+
+router.post('/sources', requireRole('lead'), async (req, res) => {
+  const parsed = sourceSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: 'Invalid file. Check the type, label and size (max 200 KB).' });
+  }
+  const { name, type, access_label, content } = parsed.data;
+  const { rows } = await pool.query(
+    'INSERT INTO sources (name, type, access_label, content, uploaded_by) VALUES ($1,$2,$3,$4,$5) RETURNING id',
+    [name, type, access_label, content, req.user.id]
+  );
+  res.json({ id: rows[0].id });
+});
+
+router.delete('/sources/:id', requireRole('lead'), async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) return res.status(400).json({ error: 'Invalid id' });
+  await pool.query('DELETE FROM sources WHERE id = $1', [id]);
+  res.json({ ok: true });
+});
+
+// Rebuild all items from the sources currently stored (keeps uploaded sources)
+router.post('/handover/rebuild', requireRole('lead'), async (req, res) => {
+  await pool.query('DELETE FROM acknowledgements');
+  const created = await runPipeline();
+  res.json({ created });
+});
+
 export default router;
