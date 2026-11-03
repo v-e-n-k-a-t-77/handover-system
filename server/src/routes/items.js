@@ -47,6 +47,13 @@ router.get('/items', async (req, res) => {
 
   const v = await pool.query('SELECT count(*)::int + 1 AS v FROM review_actions');
   const version = v.rows[0].v;
+    let underReview = 0;
+  if (role === 'joiner') {
+    const u = await pool.query(
+      "SELECT count(*)::int AS n FROM items WHERE access_label = 'team' AND review_state = 'pending'"
+    );
+    underReview = u.rows[0].n;
+  }
   let acknowledged = false;
   if (role === 'joiner') {
     const a = await pool.query(
@@ -58,7 +65,7 @@ router.get('/items', async (req, res) => {
 
   res.json({
     items: items.map((i) => ({ ...i, evidence: evidence.filter((e) => e.item_id === i.id) })),
-    restricted, version, acknowledged,
+    restricted, underReview, version, acknowledged,
   });
 });
 

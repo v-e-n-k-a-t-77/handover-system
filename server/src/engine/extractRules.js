@@ -23,8 +23,9 @@ const CHAT_RE = /^\[(\d{2}\/\d{2}\/\d{4}),\s*\d{2}:\d{2}\]\s*([^:]+):\s*(.+)$/;
 
 export function extractRules(sources) {
   const cands = [];
+    const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
   const add = (type, topic, statement, evidence, rank = 0, state = null) =>
-    cands.push({ key: `${type}:${topic}`, type, statement, evidence, rank, state });
+    cands.push({ key: `${type}:${topic}`, type, statement: cap(statement), evidence, rank, state });
 
   for (const src of sources) {
     if (src.type === 'chat') fromChat(src, add);

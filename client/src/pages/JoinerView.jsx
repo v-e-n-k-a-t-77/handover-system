@@ -48,7 +48,8 @@ export default function JoinerView() {
                 Approved by your team lead | Version {data.version}
               </p>
               <p className="text-sm text-green-800">
-                {unresolved} item(s) are still amber or red. Check their evidence before acting on them.
+                               {unresolved > 0 && <>{unresolved} approved item(s) are amber or red: check their evidence before acting. </>}
+                {data.underReview > 0 && <>{data.underReview} more item(s) are still being reviewed by your team lead.</>}
               </p>
             </div>
             {data.acknowledged ? (
@@ -86,6 +87,7 @@ export default function JoinerView() {
               <section>
                 <h2 className="mb-2 text-lg font-bold text-slate-900">Risks, dependencies and open questions</h2>
                 <div className="space-y-3">
+                                    {watch.length === 0 && <p className="text-sm text-slate-500">Nothing approved here yet. Your team lead is still reviewing.</p>}
                   {watch.map((i) => <ItemCard key={i.id} item={i} showState={false} />)}
                 </div>
               </section>

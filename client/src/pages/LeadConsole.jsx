@@ -84,7 +84,7 @@ export default function LeadConsole() {
                   </div>
                 )}
                 <p className="mt-3 text-sm text-slate-600">
-                  <b>{r.gapsOpen}</b> open gap(s) will be shown to the joiner as unresolved.
+                                    <b>{r.gapsOpen}</b> open gap(s). Items you approve while still amber or red are shown to the joiner as unresolved. Pending items stay hidden.
                 </p>
                 <p className="mt-2 text-xs text-slate-400">
                   Score = 100 x (0.35 evidence + 0.25 gaps closed + 0.20 ownership + 0.20 reviewed).
