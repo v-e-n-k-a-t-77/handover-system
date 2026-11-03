@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.js';
+import itemRoutes from './routes/items.js';
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api', itemRoutes);
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
