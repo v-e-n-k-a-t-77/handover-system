@@ -1,0 +1,4 @@
+Sponsor: Hope Pantry Trust (fictional)
+Contact: Mr. Rao, phone 98765 43210, email rao@example.org
+Payment: Sponsor payment of 50000 received on 20 Nov. Receipt number HP-2291.
+Note: The receipt must be kept by the team lead.
