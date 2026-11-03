@@ -24,6 +24,8 @@ CREATE TABLE items (
   statement TEXT NOT NULL,
   owner TEXT,
   due_date TEXT,
+  successor TEXT,
+  task_state TEXT,
   status TEXT NOT NULL CHECK (status IN ('green','amber','red')),
   status_reason TEXT NOT NULL,
   access_label TEXT NOT NULL DEFAULT 'team',
